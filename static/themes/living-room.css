@@ -1,0 +1,109 @@
+/* Living room: a dark front-end on the TV; console logos and each console's own colour
+   (the --accent variable, set on the page elements themselves), big artwork. */
+[data-theme="living-room"] {
+  --bg: #121418;
+  --bar-bg: #0c0d10;
+  --bar-line: #262a31;
+  --text: #eceef1;
+  --muted: #a3a9b3;
+  --brand: #f2b544;
+  --tag-text: #121418;
+  --line: #2a2e36;
+  --card: #1c1f25;
+  --field-border: #3a3f48;
+  --placeholder: #262a31;
+  --label-text: #d6d9de;
+  --highlight: #f2b544;
+  --focus: #ffd166;
+  --error: #ff7b7b;
+  --shadow: 0 12px 30px rgba(0, 0, 0, .6);
+  --tile-shadow: 0 14px 34px rgba(0, 0, 0, .65);
+  --thumb-shadow: 0 4px 10px rgba(0, 0, 0, .5);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius: 14px;
+  --field-radius: 8px;
+  --cover-radius: 6px;
+  color-scheme: dark;
+}
+[data-theme="living-room"] body {
+  background: radial-gradient(ellipse at 50% -10%, #232a38 0%, #121418 60%) fixed, #121418;
+}
+[data-theme="living-room"] .brand { font-size: 17px; letter-spacing: .5px; }
+
+/* the wall: one big panel per console, its logo in the middle, its colour underneath */
+[data-theme="living-room"] .tile {
+  position: relative; border: 0; padding: 16px; text-align: center;
+  border-bottom: 5px solid var(--accent, #4f8cff);
+  background: #1c1f25;
+  background: linear-gradient(165deg, color-mix(in srgb, var(--accent, #4f8cff) 30%, #1c1f25) 0%, #1c1f25 60%);
+}
+[data-theme="living-room"] .tile:hover,
+[data-theme="living-room"] .tile:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 2px var(--accent, #4f8cff), var(--tile-shadow);
+}
+[data-theme="living-room"] .tile .year {
+  color: var(--muted); letter-spacing: 2px; font-size: 11px;
+}
+[data-theme="living-room"] .tile h2 { font-size: 20px; margin: 6px 0 10px; min-height: 2.6em;
+  display: flex; align-items: center; justify-content: center; }
+[data-theme="living-room"] .tile-logo {
+  display: flex; align-items: center; justify-content: center; height: 76px; margin: 6px 0 10px;
+}
+[data-theme="living-room"] .tile-logo img {
+  max-height: 76px; max-width: 92%; width: auto; border-radius: 0;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .6));
+}
+[data-theme="living-room"] .tile-logo img[data-media]:not([src]),
+[data-theme="living-room"] .shelf-logo img[data-media]:not([src]) { min-height: 0; min-width: 0; }
+[data-theme="living-room"] .tile-logo[hidden], [data-theme="living-room"] .shelf-logo[hidden] { display: none; }
+/* with a logo on show, the name stays for screen readers only */
+[data-theme="living-room"] .tile:has(.tile-logo:not([hidden])) h2 {
+  position: absolute; width: 1px; height: 1px; min-height: 0; margin: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+[data-theme="living-room"] .tile .mini { justify-content: center; }
+[data-theme="living-room"] .tile .mini img { border-radius: 4px; }
+
+/* a console page: the console's colour as a glow behind its logo and title */
+[data-theme="living-room"] .shelf-page {
+  padding: 14px 18px 4px; margin-top: 4px; border-radius: 18px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent, #4f8cff) 28%, transparent) 0, transparent 260px);
+}
+[data-theme="living-room"] .shelf-logo { display: block; margin: 10px 0 4px; }
+[data-theme="living-room"] .shelf-logo img {
+  max-height: 110px; max-width: min(420px, 100%); width: auto; border-radius: 0;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .6));
+}
+[data-theme="living-room"] .shelf-page h1 { font-size: 30px; }
+[data-theme="living-room"] h2.section,
+[data-theme="living-room"] h3.section {
+  border-left: 4px solid var(--accent, #4f8cff); padding-left: 10px;
+}
+[data-theme="living-room"] .card .cover img { aspect-ratio: 3 / 4; }
+[data-theme="living-room"] .card:hover .cover img,
+[data-theme="living-room"] .card:focus-visible .cover img {
+  box-shadow: 0 0 0 2px var(--accent, #4f8cff), var(--shadow);
+}
+
+/* a game page: large artwork */
+[data-theme="living-room"] .covers { flex-basis: min(480px, 46%); }
+[data-theme="living-room"] .covers:has(.back-slot:not([hidden])) { flex-basis: min(760px, 58%); }
+[data-theme="living-room"] .big-cover { width: min(480px, 46%); }
+[data-theme="living-room"] .covers .big-cover {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .65),
+              0 0 70px color-mix(in srgb, var(--accent, #4f8cff) 35%, transparent);
+}
+[data-theme="living-room"] .exhibit h1 { font-size: 38px; line-height: 1.15; }
+[data-theme="living-room"] .media-strip .media-slot img { height: 15rem; }
+[data-theme="living-room"] .level.highlight { background: #262a31; }
+
+@media (max-width: 640px) {
+  [data-theme="living-room"] .covers,
+  [data-theme="living-room"] .covers:has(.back-slot:not([hidden])) { flex-basis: auto; }
+  [data-theme="living-room"] .big-cover { width: 100%; }
+  [data-theme="living-room"] .exhibit h1 { font-size: 30px; }
+  [data-theme="living-room"] .media-strip .media-slot img { height: 10rem; }
+  [data-theme="living-room"] .card .cover img { aspect-ratio: 1; }
+  [data-theme="living-room"] .tile h2 { min-height: 0; }
+}

@@ -1,0 +1,71 @@
+/* Arcade CRT: neon on a dark screen, scanlines, blocky monospace headings. Only system
+   fonts: nothing is downloaded. */
+[data-theme="arcade"] {
+  --bg: #0b0420;
+  --bar-bg: #12062e;
+  --bar-line: #ff2fd1;
+  --text: #9ff;
+  --muted: #c9a8ff;
+  --brand: #ff2fd1;
+  --tag-text: #0b0420;
+  --line: #3cf;
+  --card: #140838;
+  --field-border: #3cf;
+  --placeholder: #1d0f4a;
+  --label-text: #b8ffff;
+  --highlight: #ffe94d;
+  --focus: #ffe94d;
+  --error: #ff7a9c;
+  --shadow: 0 0 14px rgba(255, 47, 209, .55);
+  --tile-shadow: 0 0 18px rgba(255, 47, 209, .7);
+  --thumb-shadow: 0 0 6px rgba(51, 204, 255, .6);
+  --font: ui-monospace, "Cascadia Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono",
+          "DejaVu Sans Mono", monospace;
+  --heading-font: var(--font);
+  --radius: 0;
+  --field-radius: 0;
+  --cover-radius: 0;
+  color-scheme: dark;
+}
+/* scanlines over the whole screen; they never catch clicks */
+[data-theme="arcade"] body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1000;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .22) 0 2px, transparent 2px 4px);
+}
+[data-theme="arcade"] body {
+  background: radial-gradient(ellipse at 50% 30%, #1a0a44 0%, #0b0420 70%) fixed, #0b0420;
+}
+[data-theme="arcade"] h1, [data-theme="arcade"] h2, [data-theme="arcade"] h3,
+[data-theme="arcade"] .brand {
+  color: #ffe94d; text-shadow: 0 0 8px #ff9b00; text-transform: uppercase;
+  letter-spacing: .08em; font-weight: 700;
+}
+[data-theme="arcade"] .brand { font-size: 14px; }
+[data-theme="arcade"] .exhibit h1 { font-size: 24px; line-height: 1.35; }
+[data-theme="arcade"] h1 { font-size: 22px; line-height: 1.35; }
+[data-theme="arcade"] h2.section, [data-theme="arcade"] h3.section { font-size: 15px; }
+[data-theme="arcade"] .muted { text-shadow: none; }
+[data-theme="arcade"] .sub { color: #ff2fd1; }
+[data-theme="arcade"] dt { text-transform: uppercase; font-size: 13px; }
+
+[data-theme="arcade"] .tile {
+  border: 2px solid var(--line); border-left: 8px solid var(--accent, #ff2fd1);
+  box-shadow: inset 0 0 12px rgba(51, 204, 255, .25);
+}
+[data-theme="arcade"] .tile:hover, [data-theme="arcade"] .tile:focus-visible {
+  border-color: #ff2fd1; border-left-color: var(--accent, #ff2fd1); box-shadow: var(--tile-shadow);
+}
+[data-theme="arcade"] .tile h2 { font-size: 15px; }
+[data-theme="arcade"] .tile .year { color: #ff2fd1; letter-spacing: .1em; }
+[data-theme="arcade"] .card .cover img,
+[data-theme="arcade"] .big-cover,
+[data-theme="arcade"] .back-slot img,
+[data-theme="arcade"] .media-strip .media-slot img { border: 2px solid #ff2fd1; }
+[data-theme="arcade"] .card:hover .cover img,
+[data-theme="arcade"] .card:focus-visible .cover img { border-color: #ffe94d; box-shadow: 0 0 16px #ffe94d; }
+[data-theme="arcade"] .card-price { color: #ffe94d; }
+[data-theme="arcade"] .tag { border-radius: 0; }
+[data-theme="arcade"] .label { border: 2px dashed var(--line); padding: 8px 10px; }
+[data-theme="arcade"] .level { border-width: 2px; }
+[data-theme="arcade"] .level.highlight { background: #3cf; color: #0b0420; border-color: #3cf; }
+[data-theme="arcade"] .unlock button { background: #ff2fd1; color: #0b0420; border-color: #ff2fd1; font-weight: 700; }

@@ -1,0 +1,26 @@
+/* Catalogue: light and clean, like an auction-house catalogue (the default look). */
+[data-theme="catalogue"] {
+  --bg: #faf8f4;
+  --bar-bg: #faf8f4;
+  --bar-line: #1d1d1f;
+  --text: #1d1d1f;
+  --muted: #6e6e73;
+  --brand: #e8432e;
+  --tag-text: #fff;
+  --line: #e5e2dc;
+  --card: #fff;
+  --field-border: #ddd;
+  --placeholder: #eee;
+  --label-text: #333;
+  --highlight: #1d1d1f;
+  --focus: #1d1d1f;
+  --error: #b00020;
+  --shadow: 0 6px 20px rgba(0, 0, 0, .18);
+  --tile-shadow: 0 4px 14px rgba(0, 0, 0, .12);
+  --thumb-shadow: 0 3px 8px rgba(0, 0, 0, .18);
+  --font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 8px;
+  --field-radius: 6px;
+  --cover-radius: 4px;
+  color-scheme: light;
+}
