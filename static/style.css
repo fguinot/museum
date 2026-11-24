@@ -1,0 +1,505 @@
+/* Shared layout. Colours, fonts and shadows come from the theme files in themes/, each
+   scoped to html[data-theme="..."] (set before first paint by the inline head snippet). */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+main { max-width: 1200px; margin: 0 auto; padding: 16px 20px 48px; }
+h1, h2, h3 { font-family: var(--heading-font, inherit); }
+h1 { font-size: 26px; margin: 8px 0 4px; font-weight: 600; }
+h2.section { font-size: 18px; margin: 28px 0 10px; font-weight: 600; }
+.muted { color: var(--muted); font-weight: 400; }
+
+.topbar {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px 16px;
+  flex-wrap: wrap; padding: 12px 20px; border-bottom: 2px solid var(--bar-line);
+  background: var(--bar-bg);
+}
+.brand { font-weight: 600; letter-spacing: .3px; font-family: var(--heading-font, inherit); }
+.topbar-tools { display: flex; align-items: center; gap: 14px; }
+.theme-label { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+#theme-switch {
+  font: inherit; font-size: 13px; padding: 4px 6px; background: var(--card); color: var(--text);
+  border: 1px solid var(--field-border); border-radius: var(--field-radius);
+}
+.lang-switch, .lang-link { color: var(--muted); font-size: 13px; }
+.lang-switch:hover, .lang-link:hover { color: var(--text); }
+.back { color: var(--muted); font-size: 13px; }
+.back:hover { color: var(--text); }
+
+.count { font-size: 18px; font-weight: 600; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 18px; }
+.controls input, .controls select {
+  font: inherit; font-size: 14px; padding: 8px 10px; background: var(--card);
+  border: 1px solid var(--field-border); border-radius: var(--field-radius); color: var(--text);
+}
+.controls input { flex: 1 1 240px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.grid[hidden] { display: none; }
+
+.tile {
+  display: block; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 12px; transition: box-shadow .15s, transform .15s;
+}
+.tile:hover { box-shadow: var(--tile-shadow); }
+.tile .year { color: var(--brand); font-weight: 600; font-size: 12px; }
+.tile h2 { margin: 2px 0 6px; font-size: 18px; font-weight: 600; }
+.tile .stat { color: var(--muted); font-size: 13px; }
+.tile .stat b { color: var(--text); }
+/* console logos: only the themes that want them show them */
+.tile-logo, .shelf-logo { display: none; }
+/* console artwork (decorative): only the Galerie theme shows it, so no other theme fetches it */
+.shelf-backdrop, .tile-backdrop { display: none; }
+/* the owner's backdrop picker belongs to the Galerie band, so it shows nowhere else */
+.backdrop-change, .backdrop-panel { display: none; }
+
+.card { display: block; }
+/* Cover boxes keep their size and show the placeholder colour until the image loads;
+   the cover is shown whole (contain), centred on that colour, never cropped. */
+.card .cover {
+  position: relative; display: block; aspect-ratio: 1; overflow: hidden;
+  border-radius: var(--cover-radius); box-shadow: var(--shadow); background: var(--placeholder);
+}
+.card .cover img {
+  position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain;
+}
+.card .cover img[data-media]:not([src]) {
+  visibility: hidden;
+}
+.card-title { display: block; margin-top: 8px; font-size: 13px; line-height: 1.3; }
+.card-price { display: block; font-weight: 600; font-size: 13px; }
+.card-meta { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.card-condition { display: none; }
+.centrepieces { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.card.big .card-title { font-size: 15px; font-weight: 600; }
+
+.exhibit { display: flex; gap: 32px; align-items: flex-start; margin-top: 12px; }
+.big-cover {
+  width: min(380px, 40%); height: auto; aspect-ratio: auto 3 / 4; object-fit: contain;
+  border-radius: var(--cover-radius); box-shadow: var(--shadow); background: var(--placeholder);
+}
+/* until the encrypted cover is decrypted: an empty 3/4 box, no alt text, no broken icon */
+.big-cover[data-media]:not([src]) { content: linear-gradient(transparent, transparent); color: transparent; }
+.exhibit .meta { flex: 1; min-width: 0; }
+.tag {
+  display: inline-block; background: var(--brand); color: var(--tag-text); font-size: 11px;
+  font-weight: 600; padding: 2px 8px; border-radius: 3px; letter-spacing: .5px; text-transform: uppercase;
+}
+.exhibit h1 { font-size: 30px; margin: 8px 0 0; overflow-wrap: anywhere; }
+.sub { color: var(--muted); }
+dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 16px 0; }
+dt { color: var(--muted); }
+dd { margin: 0; }
+dd.copy-note { white-space: pre-line; overflow-wrap: anywhere; }
+/* the owner's notes editor (game pages, only in a browser holding the token) and owner page */
+.notes-editor { margin: -4px 0 16px; }
+.notes-editor:empty { display: none; }
+.notes-edit, .notes-buttons button, .owner-buttons button {
+  font: inherit; font-size: 14px; padding: 6px 14px; cursor: pointer; background: var(--card);
+  color: var(--text); border: 1px solid var(--field-border); border-radius: var(--field-radius);
+}
+.notes-buttons .notes-save, #owner-test { background: var(--brand); border-color: var(--brand); color: var(--tag-text); }
+.notes-buttons button:disabled, .owner-buttons button:disabled { opacity: .6; cursor: progress; }
+.notes-form { display: grid; gap: 6px; max-width: 520px; }
+.notes-label { color: var(--muted); font-size: 13px; }
+.notes-form textarea, .notes-form select, .owner-form input {
+  font: inherit; font-size: 14px; padding: 8px 10px; background: var(--card); color: var(--text);
+  border: 1px solid var(--field-border); border-radius: var(--field-radius);
+}
+.notes-form textarea { width: 100%; min-height: 6em; resize: vertical; }
+.notes-form select { justify-self: start; }
+.notes-status { display: flex; flex-wrap: wrap; gap: 4px 16px; border: 0; margin: 4px 0 0; padding: 0; }
+.notes-status legend { padding: 0; margin-bottom: 4px; }
+.notes-status label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+.notes-buttons, .owner-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.notes-message { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+.notes-message:empty { display: none; }
+.notes-message.notes-error, #owner-status.owner-error { color: var(--error); }
+#owner-status.owner-warn { color: var(--highlight); font-weight: 600; }
+/* the owner's console photos (a console's own page, only in a browser holding the token):
+   the change button under the covers; the panel opens in its place */
+.photo-editor { min-width: 0; }
+.photo-editor .photo-panel { max-width: 100%; box-sizing: border-box; }
+.photo-change {
+  font: inherit; font-size: 13px; margin-top: 6px; padding: 4px 12px; cursor: pointer;
+  background: var(--card); color: var(--text); border: 1px solid var(--field-border);
+  border-radius: var(--field-radius);
+}
+.photo-panel {
+  display: grid; gap: 8px; padding: 12px; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.photo-copy { margin: 0; font-weight: 600; }
+.photo-search {
+  font: inherit; font-size: 14px; padding: 8px 10px; background: var(--card); color: var(--text);
+  border: 1px solid var(--field-border); border-radius: var(--field-radius); width: 100%;
+  box-sizing: border-box;
+}
+.photo-results {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); max-height: 280px; overflow-y: auto;
+}
+.photo-results:empty { display: none; }
+.photo-result {
+  display: block; width: 100%; aspect-ratio: 1; padding: 2px; cursor: pointer;
+  background: var(--placeholder); border: 2px solid transparent; border-radius: var(--field-radius);
+}
+.photo-result[aria-pressed="true"] { border-color: var(--brand); }
+.photo-result:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.photo-result img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.photo-note { margin: 0; font-size: 13px; color: var(--muted); }
+.photo-note:empty { display: none; }
+.photo-upload { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.photo-upload input { font: inherit; font-size: 13px; color: var(--text); max-width: 100%; }
+.photo-preview {
+  max-width: 260px; max-height: 260px; width: auto; height: auto; justify-self: start;
+  border-radius: var(--cover-radius); background: var(--placeholder);
+}
+.photo-preview[hidden] { display: none; }
+.photo-remove { margin-left: auto; }
+.owner { max-width: 640px; }
+.owner-steps li { margin: 4px 0; }
+.owner-steps code { overflow-wrap: anywhere; }
+.owner-form { display: grid; gap: 6px; margin-top: 20px; }
+.owner-form input { width: 100%; }
+.label { line-height: 1.6; color: var(--label-text); margin: 12px 0 4px; max-width: 60ch; }
+.note { color: var(--muted); font-size: 12px; font-style: italic; margin: 0 0 12px; }
+.levels { display: flex; gap: 10px; margin-top: 16px; max-width: 460px; }
+.level {
+  flex: 1; padding: 8px; text-align: center; background: var(--card);
+  border: 1px solid var(--line); border-radius: var(--field-radius); font-size: 13px;
+}
+.level b { display: block; font-size: 16px; }
+.level-name, .level b { white-space: nowrap; }
+.level.highlight { border: 2px solid var(--highlight); }
+.own { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+
+@media (max-width: 640px) {
+  main { padding: 12px 14px 40px; }
+  .topbar { padding: 10px 14px; }
+  .grid, .centrepieces { grid-template-columns: 1fr; }
+  .controls input, .controls select { flex: 1 1 100%; }
+  .exhibit { flex-direction: column; gap: 18px; }
+  .exhibit .meta { align-self: stretch; }  /* else the image strip widens the page */
+  .big-cover { width: 100%; max-width: 420px; }
+  .card { display: grid; grid-template-columns: 84px 1fr; gap: 0 12px; align-items: center; }
+  .card .cover { grid-row: 1 / span 3; }
+  .card-title { margin-top: 0; align-self: end; }
+  .card-meta { margin-top: 0; }
+  .card-price { align-self: start; }
+  .levels { max-width: none; }
+}
+
+.view-controls { display: flex; flex-wrap: wrap; column-gap: 18px; }
+.view-toggle { display: flex; align-items: center; gap: 6px; margin: 8px 0 14px; font-size: 13px; color: var(--muted); }
+.view-toggle[hidden] { display: none; }
+.view-toggle button {
+  font: inherit; font-size: 13px; padding: 4px 12px; cursor: pointer; background: var(--card);
+  color: var(--text); border: 1px solid var(--field-border); border-radius: var(--field-radius);
+}
+.view-toggle button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--tag-text); }
+
+/* List view: one row per game, using the theme variables so every theme inherits it. */
+html[data-view="list"] .grid:not(#wall) { grid-template-columns: 1fr; gap: 8px; }
+html[data-view="list"] .grid:not(#wall) .card {
+  display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; grid-template-areas:
+    "cover title price" "cover meta cond";
+  gap: 2px 14px; align-items: center; padding: 8px 12px; background: var(--card);
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+html[data-view="list"] .card .cover {
+  grid-area: cover; width: 64px; aspect-ratio: 1; box-shadow: var(--thumb-shadow);
+}
+html[data-view="list"] .card-title { grid-area: title; margin: 0; font-size: 14px; overflow-wrap: anywhere; }
+html[data-view="list"] .card.big .card-title { font-size: 14px; }
+html[data-view="list"] .card-meta { grid-area: meta; margin: 0; }
+html[data-view="list"] .card-condition { display: block; grid-area: cond; font-size: 12px; color: var(--muted); text-align: right; }
+html[data-view="list"] .card-price { grid-area: price; text-align: right; white-space: nowrap; }
+@media (max-width: 640px) {
+  html[data-view="list"] .grid:not(#wall) .card {
+    grid-template-columns: 56px minmax(0, 1fr); grid-template-areas:
+      "cover title" "cover meta" "cover cond" "cover price";
+    gap: 1px 12px;
+  }
+  html[data-view="list"] .card .cover { width: 56px; }
+  html[data-view="list"] .card-condition, html[data-view="list"] .card-price { text-align: left; }
+}
+
+.unlock { max-width: 360px; margin: 4rem auto; padding: 0 1rem; display: flex; flex-direction: column; gap: .8rem; }
+.unlock label { display: flex; flex-direction: column; gap: .3rem; }
+.unlock label.remember { flex-direction: row; align-items: center; gap: .5rem; }
+.unlock input[type="password"], .unlock button {
+  font: inherit; font-size: 1rem; background: var(--card); color: var(--text);
+  border: 1px solid var(--field-border); border-radius: var(--field-radius);
+}
+.unlock input[type="password"] { padding: .5rem; }
+.unlock button { padding: .6rem; cursor: pointer; }
+.unlock-error { color: var(--error); min-height: 1.2em; margin: 0; }
+
+/* a game page's left column: the covers, then the screens carousel */
+.exhibit-media { display: flex; flex-direction: column; gap: 18px; flex: 0 0 min(380px, 40%); min-width: 0; }
+.exhibit-media:has(.back-slot:not([hidden])) { flex-basis: min(620px, 50%); }
+.covers { display: flex; gap: 12px; align-items: flex-start; min-width: 0; }
+.carousel { min-width: 0; }
+.carousel[hidden] { display: none; }
+.carousel-track {
+  position: relative; display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+  aspect-ratio: 4 / 3; background: var(--placeholder); border-radius: var(--cover-radius);
+  box-shadow: var(--shadow); scrollbar-width: none; overscroll-behavior-x: contain;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.carousel .slide {
+  flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always;
+  display: flex; flex-direction: column; padding: 8px 8px 4px; box-sizing: border-box;
+}
+.carousel .slide img {
+  flex: 1 1 0; min-height: 0; width: 100%; height: 100%; object-fit: contain; background: none;
+}
+.carousel .slide img[data-media]:not([src]) { min-height: 0; min-width: 0; }
+.carousel .slide figcaption { text-align: center; }
+.carousel-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 8px; }
+.carousel[data-single] .carousel-nav { display: none; }
+.carousel-nav button {
+  width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--field-border);
+  background: var(--card); color: var(--text); font: inherit; font-size: 20px; line-height: 1;
+  cursor: pointer;
+}
+.carousel-nav button:hover { border-color: var(--text); }
+.carousel-nav button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.carousel-count { color: var(--muted); font-size: 13px; min-width: 3.5em; text-align: center; }
+.covers .big-cover, .covers .back-slot { flex: 1 1 0; min-width: 0; width: 100%; }
+.covers .photo-slot { flex: 1 1 0; min-width: 0; margin: 0; }
+.covers .photo-slot .big-cover { width: 100%; max-width: none; }
+.photo-credit { color: var(--muted); font-size: 12px; margin-top: 4px; overflow-wrap: anywhere; }
+.back-slot img { width: 100%; max-height: none; box-shadow: var(--shadow); }
+.logo-slot { margin: 12px 0 0; }
+.logo-slot img { max-height: 5rem; max-width: 100%; width: auto; }
+.media-slot { margin: 0; }
+.media-slot figcaption { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.media-slot img {
+  display: block; max-width: 100%; height: auto; border-radius: var(--cover-radius);
+  background: var(--placeholder);
+}
+.media-slot[hidden], .media-slot img[hidden] { display: none; }
+
+@media (max-width: 640px) {
+  .exhibit-media, .exhibit-media:has(.back-slot:not([hidden])) { flex: none; width: 100%; max-width: 560px; }
+}
+.media-slot img[data-media]:not([src]) { visibility: hidden; min-height: 6rem; min-width: 8rem; }
+.logo-slot img, .tile-logo img, .shelf-logo img { background: none; }
+
+/* Datasheet: the whole collection as one table. */
+.datasheet-link { color: inherit; font-size: 13px; text-decoration: none; margin-right: 6px; }
+.datasheet-link:hover, .datasheet-link:focus-visible { text-decoration: underline; }
+.ds-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 8px 0 14px; font-size: 13px; color: var(--muted); }
+.ds-filters input[type="search"] { flex: 1 1 260px; }
+.ds-filters input, .ds-filters select, .ds-filters button { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); color: var(--text); }
+.ds-range { display: inline-flex; align-items: center; gap: 4px; }
+.ds-range input { width: 6.5em; }
+#ds-count { margin-left: auto; color: var(--text); }
+.ds-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+#datasheet { width: 100%; border-collapse: collapse; font-size: 13px; }
+#datasheet th, #datasheet td { padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+#datasheet td.num { text-align: right; font-variant-numeric: tabular-nums; }
+#datasheet thead th { background: var(--card); }
+#datasheet thead th:first-child { position: sticky; left: 0; z-index: 2; }
+#datasheet thead button { font: inherit; font-weight: 600; color: var(--text); background: none; border: 0; padding: 0; cursor: pointer; }
+#datasheet thead th[aria-sort="ascending"] button::after { content: " ▲"; }
+#datasheet thead th[aria-sort="descending"] button::after { content: " ▼"; }
+#datasheet tbody th { font-weight: 500; white-space: normal; min-width: 14em; position: sticky; left: 0; background: var(--card); z-index: 1; }
+#datasheet tbody th a { color: inherit; text-decoration: none; }
+#datasheet tbody tr { cursor: pointer; }
+#datasheet tbody tr:hover > * { background: var(--placeholder, rgba(0,0,0,.04)); }
+#datasheet tbody tr[hidden] { display: none; }
+.ds-none { padding: 14px; color: var(--muted); }
+/* console logo at the start of the console cell; a faint outline keeps pale logos readable */
+.ds-logo {
+  width: 48px; height: 24px; object-fit: contain; object-position: left center;
+  vertical-align: middle; margin-right: 4px; filter: drop-shadow(0 0 .5px rgba(0, 0, 0, .55));
+}
+.ds-logo[data-media]:not([src]) { visibility: hidden; }
+@media (max-width: 640px) {
+  #datasheet tbody th { min-width: 10em; }
+  #ds-count { margin-left: 0; width: 100%; }
+}
+
+/* Sort switch: pages are written in date order. Before scripts run, CSS shows A–Z with each
+   card's --alpha; app.js then reorders the cards themselves, so keyboard and screen-reader
+   order match what is shown. */
+html[data-sort="alpha"] .grid:not(#wall) > .card { order: var(--alpha, 0); }
+
+/* Tier lists. The index shows one card per list; a list page shows its tiers as rows with the
+   label on the left and the covers after it. The platform and date of a game show on
+   hover/focus (always, in the flow, on touch screens and narrow windows). */
+.lists-link { color: inherit; font-size: 13px; text-decoration: none; margin-right: 6px; }
+.lists-link:hover, .lists-link:focus-visible { text-decoration: underline; }
+.list-cards {
+  list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.list-card {
+  display: block; height: 100%; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 12px; transition: box-shadow .15s;
+}
+.list-card:hover, .list-card:focus-visible { box-shadow: var(--tile-shadow); }
+.list-card-covers { display: flex; gap: 4px; min-height: 64px; margin-bottom: 8px; }
+.list-card-cover {
+  position: relative; flex: 0 0 18%; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 2px;
+  box-shadow: var(--thumb-shadow); background: var(--placeholder);
+}
+.list-card-cover img, .tier-cover img {
+  position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain;
+}
+.list-card-cover img[data-media]:not([src]), .tier-cover img[data-media]:not([src]) { visibility: hidden; }
+.list-card-title { display: block; font-weight: 600; overflow-wrap: anywhere; }
+.list-card-count { display: block; font-size: 12px; color: var(--muted); }
+.tier {
+  display: flex; align-items: stretch; margin: 10px 0; background: var(--card);
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.tier-label {
+  flex: 0 0 76px; display: flex; align-items: center; justify-content: center; margin: 0;
+  padding: 8px; text-align: center; font-size: 18px; font-weight: 700; overflow-wrap: anywhere;
+  min-width: 0; background: var(--bar-bg); border-right: 2px solid var(--bar-line);
+  border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px);
+}
+.tier-items {
+  flex: 1 1 auto; min-width: 0; min-height: 92px; list-style: none; margin: 0; padding: 8px;
+  display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start;
+}
+.tier-item { position: relative; width: 84px; }
+.tier-link { display: block; }
+.tier-cover {
+  position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden;
+  border-radius: var(--cover-radius); box-shadow: var(--thumb-shadow); background: var(--placeholder);
+}
+.tier-title {
+  margin-top: 4px; font-size: 11px; line-height: 1.25; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.tier-meta {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.tier-item:hover .tier-meta, .tier-item:focus-within .tier-meta {
+  position: absolute; z-index: 3; right: 0; top: 100%; width: max-content; max-width: 170px;
+  height: auto; clip: auto; white-space: normal; padding: 4px 6px; font-size: 11px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--tile-shadow);
+}
+.not-owned {
+  position: absolute; top: 2px; right: 2px; z-index: 1; width: 16px; height: 16px;
+  line-height: 16px; text-align: center; font-size: 11px; border-radius: 50%;
+  background: var(--card); color: var(--muted); box-shadow: var(--thumb-shadow);
+}
+@media (hover: none), (max-width: 640px) {
+  .tier-meta, .tier-item:hover .tier-meta, .tier-item:focus-within .tier-meta {
+    position: static; display: block; width: auto; max-width: none; height: auto; clip: auto;
+    padding: 0; border: 0; box-shadow: none; background: none; white-space: normal;
+    font-size: 10px; color: var(--muted); overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 640px) {
+  .tier-label { flex-basis: 60px; font-size: 13px; padding: 4px; hyphens: auto; }
+  .tier-items { padding: 6px; gap: 6px; }
+  .tier-item { width: 72px; }
+  .list-cards { grid-template-columns: 1fr; }
+}
+/* The owner's list editor (lists.js, only in a browser holding the token): the page's title
+   and tiers are hidden while it is open; tiers keep the page's row look. */
+.lists-owner { margin: 4px 0 12px; }
+.lists-owner .notes-buttons { margin-top: 0; }
+.lists-owner .notes-buttons[hidden] { display: none; }
+.lists-owner .notes-message.lists-warn { color: var(--highlight); font-weight: 600; }
+.lists-editing > h1, .lists-editing > section.tier, .lists-editing > .list-cards,
+.lists-editing > .lists-empty { display: none; }
+.lists-editor { display: grid; gap: 8px; margin: 0 0 20px; }
+.lists-editor input[type="text"], .lists-editor input[type="search"], .lists-editor select {
+  font: inherit; font-size: 14px; padding: 8px 10px; min-width: 0; background: var(--card);
+  color: var(--text); border: 1px solid var(--field-border); border-radius: var(--field-radius);
+}
+#lists-title { width: 100%; max-width: 520px; font-size: 18px; font-weight: 600; }
+.lists-search input { width: 100%; max-width: 520px; }
+.lists-results {
+  list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; max-width: 640px;
+}
+.lists-results:empty { display: none; }
+.lists-result { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.lists-result-pick {
+  flex: 1 1 220px; display: flex; align-items: center; gap: 10px; min-width: 0; padding: 4px 8px;
+  font: inherit; text-align: left; cursor: pointer; background: var(--card); color: var(--text);
+  border: 1px solid var(--line); border-radius: var(--field-radius);
+}
+.lists-result-pick:hover { border-color: var(--field-border); box-shadow: var(--thumb-shadow); }
+.lists-result-cover {
+  position: relative; flex: 0 0 36px; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 2px;
+  background: var(--placeholder);
+}
+.lists-result-cover img {
+  position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain;
+}
+.lists-result-cover img[data-media]:not([src]) { visibility: hidden; }
+.lists-result-text { display: grid; min-width: 0; }
+.lists-result-title { font-weight: 600; overflow-wrap: anywhere; }
+.lists-result-meta { font-size: 12px; color: var(--muted); }
+.lists-source { font-weight: 600; }
+.lists-search-note, .lists-credit { font-size: 12px; margin: 4px 0; }
+.lists-in-collection { color: var(--text); }
+.lists-platform { display: inline-flex; align-items: center; gap: 4px; }
+.lists-tier .tier-label { flex-direction: column; gap: 4px; }
+.lists-tier-name {
+  width: 100%; text-align: center; font-weight: 700; padding: 4px !important;
+}
+.lists-unplaced { border-style: dashed; }
+.lists-unplaced .tier-label { font-size: 13px; }
+.lists-drop { outline: 2px dashed var(--focus); outline-offset: -2px; }
+.lists-item { cursor: grab; }
+.lists-pick { display: block; cursor: pointer; border-radius: var(--cover-radius); }
+.lists-selected .tier-cover { outline: 3px solid var(--brand); outline-offset: 2px; }
+.lists-dragging { opacity: .4; }
+/* the editor's remove button, in the top-right corner of each game's cover */
+.lists-item { position: relative; }
+.lists-remove-item {
+  position: absolute; top: -6px; right: -6px; z-index: 2; width: 24px; height: 24px; padding: 0;
+  border-radius: 50%; border: 1px solid var(--field-border); background: var(--card);
+  color: var(--text); font: inherit; font-size: 16px; line-height: 1; cursor: pointer;
+  box-shadow: var(--thumb-shadow);
+}
+.lists-remove-item:hover, .lists-remove-item:focus-visible { border-color: var(--error); color: var(--error); }
+.lists-tools { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 6px; }
+.lists-tool {
+  width: 26px; height: 26px; padding: 0; font: inherit; font-size: 14px; line-height: 1;
+  cursor: pointer; background: var(--card); color: var(--text);
+  border: 1px solid var(--field-border); border-radius: var(--field-radius);
+}
+.lists-tool:disabled { opacity: .35; cursor: default; }
+.lists-add-tier { justify-self: start; }
+/* the editor: ranked tiers on the left, "À classer" on the right, kept in view while
+   dragging; stacked under the tiers on narrow screens */
+.lists-board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 280px); gap: 12px; align-items: start; }
+.lists-ranked { display: grid; gap: 8px; min-width: 0; }
+.lists-side { position: sticky; top: 12px; min-width: 0; }
+.lists-side .lists-unplaced { flex-direction: column; }
+.lists-side .lists-unplaced .tier-label {
+  flex: none; border-right: 0; border-bottom: 2px solid var(--bar-line);
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+}
+.lists-side .lists-unplaced .tier-items {
+  min-height: 160px; max-height: calc(100vh - 120px); overflow-y: auto;
+}
+@media (max-width: 760px) {
+  .lists-board { grid-template-columns: minmax(0, 1fr); }
+  .lists-side { position: static; }
+  .lists-side .lists-unplaced .tier-items { max-height: none; }
+}
+button.list-card { width: 100%; font: inherit; color: inherit; text-align: left; cursor: pointer; }

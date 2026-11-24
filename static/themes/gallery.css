@@ -1,0 +1,202 @@
+/* Galerie: like the system screens of a TV front-end. Each console page opens on a wide band
+   of its artwork (one of the owner's games, see museum/backdrops.py) with the logo and title
+   over its darkened lower part; the wall's tiles show the same artwork, faded, behind their
+   logo. Dark palette after the Living room theme; game pages look as there. The artwork markup
+   is display: none in style.css, so only this theme ever fetches it. */
+[data-theme="gallery"] {
+  --bg: #0e1013;
+  --bar-bg: #090a0d;
+  --bar-line: #23262d;
+  --text: #eef0f3;
+  --muted: #a9afb8;
+  --brand: #e8c170;
+  --tag-text: #0e1013;
+  --line: #262a31;
+  --card: #181b20;
+  --field-border: #3a3f48;
+  --placeholder: #22262d;
+  --label-text: #d6d9de;
+  --highlight: #e8c170;
+  --focus: #ffd98a;
+  --error: #ff7b7b;
+  --shadow: 0 12px 30px rgba(0, 0, 0, .6);
+  --tile-shadow: 0 14px 34px rgba(0, 0, 0, .65);
+  --thumb-shadow: 0 4px 10px rgba(0, 0, 0, .5);
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius: 12px;
+  --field-radius: 8px;
+  --cover-radius: 6px;
+  --band: 360px;
+  color-scheme: dark;
+}
+[data-theme="gallery"] body { background: var(--bg); }
+/* the band runs from edge to edge of the window: nothing may scroll sideways because of it */
+[data-theme="gallery"] body:has(.shelf-page) { overflow-x: clip; }
+[data-theme="gallery"] .brand { font-size: 17px; letter-spacing: .5px; }
+
+/* the wall: each console on its artwork, faded under a dark veil, its logo in the middle */
+[data-theme="gallery"] .tile {
+  position: relative; isolation: isolate; overflow: hidden; padding: 16px; text-align: center;
+  border: 1px solid rgba(255, 255, 255, .07); border-bottom: 4px solid var(--accent, #4f8cff);
+  background: #181b20;
+  background: linear-gradient(165deg, color-mix(in srgb, var(--accent, #4f8cff) 28%, #181b20) 0%, #14161a 65%);
+}
+[data-theme="gallery"] .tile:hover,
+[data-theme="gallery"] .tile:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 2px var(--accent, #4f8cff), var(--tile-shadow);
+}
+[data-theme="gallery"] .tile-backdrop { display: block; position: absolute; inset: 0; z-index: -1; }
+[data-theme="gallery"] .tile-backdrop img {
+  display: block; width: 100%; height: 100%; object-fit: cover; opacity: .85;
+}
+[data-theme="gallery"] .tile-backdrop::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(14, 16, 19, .3) 0%, rgba(14, 16, 19, .6) 50%,
+                              rgba(14, 16, 19, .92) 100%);
+}
+[data-theme="gallery"] .tile .year {
+  color: #d6d9de; letter-spacing: 2px; font-size: 11px; text-shadow: 0 1px 3px #000;
+}
+[data-theme="gallery"] .tile h2 { font-size: 20px; margin: 6px 0 10px; min-height: 2.6em;
+  display: flex; align-items: center; justify-content: center; text-shadow: 0 2px 8px #000; }
+[data-theme="gallery"] .tile-logo {
+  display: flex; align-items: center; justify-content: center; height: 76px; margin: 6px 0 10px;
+}
+[data-theme="gallery"] .tile-logo img {
+  max-height: 76px; max-width: 92%; width: auto; border-radius: 0;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, .85));
+}
+[data-theme="gallery"] .tile-logo img[data-media]:not([src]),
+[data-theme="gallery"] .shelf-logo img[data-media]:not([src]) { min-height: 0; min-width: 0; }
+[data-theme="gallery"] .tile-logo[hidden], [data-theme="gallery"] .shelf-logo[hidden],
+[data-theme="gallery"] .tile-backdrop img[hidden],
+[data-theme="gallery"] .shelf-backdrop img[hidden] { display: none; }
+[data-theme="gallery"] .tile-backdrop img:not([src]),
+[data-theme="gallery"] .shelf-backdrop img:not([src]) { visibility: hidden; }
+/* with a logo on show, the name stays for screen readers only */
+[data-theme="gallery"] .tile:has(.tile-logo:not([hidden])) h2 {
+  position: absolute; width: 1px; height: 1px; min-height: 0; margin: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+[data-theme="gallery"] .tile .stat {
+  display: inline-block; padding: 2px 10px; border-radius: 999px; color: #d6d9de;
+  background: rgba(9, 10, 13, .72);
+}
+
+/* a console page: the band behind the back link, logo, title and count, which sit on its
+   lower part; the artwork fades into the page; without one, a dark band in the console's
+   colour. The band (::before) and the artwork share the first five rows of the page's grid,
+   the second of which stretches so the band is at least --band tall. */
+[data-theme="gallery"] .shelf-page {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto auto auto; isolation: isolate;
+}
+[data-theme="gallery"] .shelf-page::before,
+[data-theme="gallery"] .shelf-backdrop {
+  grid-area: 1 / 1 / 6 / 2; min-height: var(--band);
+  margin: -16px calc(50% - 50vw) 0; /* up to the header bar, out to the window's edges */
+}
+[data-theme="gallery"] .shelf-page::before {
+  content: ""; z-index: -2;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent, #4f8cff) 34%, #0e1013) 0%,
+                              #0e1013 100%);
+}
+[data-theme="gallery"] .shelf-backdrop {
+  display: block; position: relative; z-index: -1; overflow: hidden;
+}
+[data-theme="gallery"] .shelf-backdrop img {
+  position: absolute; inset: 0; display: block; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 30%;
+}
+[data-theme="gallery"] .shelf-backdrop::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(14, 16, 19, .55) 0%, rgba(14, 16, 19, 0) 60%),
+    linear-gradient(180deg, rgba(14, 16, 19, .35) 0%, rgba(14, 16, 19, .15) 30%,
+                    rgba(14, 16, 19, .7) 72%, #0e1013 100%);
+}
+[data-theme="gallery"] .shelf-page > p:first-child { grid-area: 1 / 1; }
+[data-theme="gallery"] .shelf-page > .shelf-logo { grid-area: 3 / 1; }
+[data-theme="gallery"] .shelf-page > h1 { grid-area: 4 / 1; }
+[data-theme="gallery"] .shelf-page > h1 + .muted { grid-area: 5 / 1; margin-bottom: 18px; }
+/* the owner's backdrop picker (shown by the script only in a browser holding the token): the
+   button in its own corner of the band, the panel just below the band */
+[data-theme="gallery"] .backdrop-change:not([hidden]) {
+  display: block; grid-area: 2 / 1; justify-self: end; align-self: start; margin-top: 8px;
+  font: inherit; font-size: 13px; padding: 5px 12px; cursor: pointer; color: #d6d9de;
+  background: rgba(9, 10, 13, .72); border: 1px solid rgba(255, 255, 255, .25); border-radius: 999px;
+}
+[data-theme="gallery"] .backdrop-change:hover { color: #fff; }
+[data-theme="gallery"] .backdrop-panel:not([hidden]) {
+  display: grid; grid-area: 6 / 1; gap: 8px; margin: 0 0 18px; padding: 12px;
+  background: #15181d; border: 1px solid #2a2f37; border-radius: 8px;
+}
+[data-theme="gallery"] .backdrop-options {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); max-height: 360px; overflow-y: auto;
+}
+[data-theme="gallery"] .backdrop-option {
+  display: grid; align-content: start; gap: 2px; width: 100%; height: 100%; padding: 4px; font: inherit;
+  font-size: 12px; text-align: left; cursor: pointer; color: #d6d9de; background: #0e1013;
+  border: 2px solid transparent; border-radius: 6px;
+}
+[data-theme="gallery"] .backdrop-option[aria-pressed="true"] { border-color: var(--brand, #4f8cff); }
+[data-theme="gallery"] .backdrop-option:focus-visible { outline: 2px solid var(--focus, #4f8cff); outline-offset: 2px; }
+[data-theme="gallery"] .backdrop-option img {
+  display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #090a0d;
+}
+[data-theme="gallery"] .backdrop-option.backdrop-auto { align-content: center; min-height: 64px; font-size: 14px; }
+[data-theme="gallery"] .backdrop-upload-button {
+  font: inherit; font-size: 13px; padding: 5px 12px; cursor: pointer; color: #d6d9de;
+  background: #0e1013; border: 1px solid #2a2f37; border-radius: 6px;
+}
+[data-theme="gallery"] .backdrop-upload-button:hover { color: #fff; }
+[data-theme="gallery"] .backdrop-upload-button:focus-visible { outline: 2px solid var(--focus, #4f8cff); outline-offset: 2px; }
+[data-theme="gallery"] .shelf-page .back { color: #d6d9de; text-shadow: 0 1px 4px #000; }
+[data-theme="gallery"] .shelf-page .back:hover { color: #fff; }
+[data-theme="gallery"] .shelf-logo { display: block; margin: 10px 0 4px; }
+[data-theme="gallery"] .shelf-logo img {
+  max-height: 110px; max-width: min(420px, 100%); width: auto; border-radius: 0;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .9));
+}
+[data-theme="gallery"] .shelf-page > h1 { font-size: 34px; text-shadow: 0 2px 12px rgba(0, 0, 0, .9); }
+[data-theme="gallery"] .shelf-page > h1 .muted,
+[data-theme="gallery"] .shelf-page > h1 + .muted { color: #d6d9de; text-shadow: 0 1px 6px #000; }
+[data-theme="gallery"] h2.section,
+[data-theme="gallery"] h3.section {
+  border-left: 4px solid var(--accent, #4f8cff); padding-left: 10px;
+}
+[data-theme="gallery"] .card .cover { aspect-ratio: 3 / 4; }
+[data-theme="gallery"] .card:hover .cover,
+[data-theme="gallery"] .card:focus-visible .cover {
+  box-shadow: 0 0 0 2px var(--accent, #4f8cff), var(--shadow);
+}
+
+/* a game page: large artwork, as in the Living room theme */
+[data-theme="gallery"] .exhibit-media { flex-basis: min(480px, 46%); }
+[data-theme="gallery"] .exhibit-media:has(.back-slot:not([hidden])) { flex-basis: min(760px, 58%); }
+[data-theme="gallery"] .big-cover { width: min(480px, 46%); }
+[data-theme="gallery"] .covers .photo-slot .big-cover { width: 100%; }
+[data-theme="gallery"] .covers .big-cover {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .65),
+              0 0 70px color-mix(in srgb, var(--accent, #4f8cff) 35%, transparent);
+}
+[data-theme="gallery"] .exhibit h1 { font-size: 38px; line-height: 1.15; }
+[data-theme="gallery"] .carousel-track {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .65),
+              0 0 70px color-mix(in srgb, var(--accent, #4f8cff) 25%, transparent);
+}
+[data-theme="gallery"] .level.highlight { background: #22262d; }
+
+@media (max-width: 640px) {
+  [data-theme="gallery"] { --band: 180px; }
+  [data-theme="gallery"] .shelf-logo img { max-height: 64px; }
+  [data-theme="gallery"] .shelf-page > h1 { font-size: 26px; }
+  [data-theme="gallery"] .exhibit-media,
+  [data-theme="gallery"] .exhibit-media:has(.back-slot:not([hidden])) { flex-basis: auto; }
+  [data-theme="gallery"] .big-cover { width: 100%; }
+  [data-theme="gallery"] .exhibit h1 { font-size: 30px; }
+  [data-theme="gallery"] .card .cover { aspect-ratio: 1; }
+  [data-theme="gallery"] .tile h2 { min-height: 0; }
+}
